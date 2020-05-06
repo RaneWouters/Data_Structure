@@ -4,32 +4,38 @@
 using namespace std;
 
 constexpr int ERROR = -1;
-void GetNext(char *T, int *next){
+void GetNext(char *T, int *nextval){
     int i = 1;
     int j = 0;
-    next[1] = 0;
+    nextval[1] = 0;
     while(i<T[0]){
         if(j==0 || T[i]==T[j]){
-            next[++i] = ++j;
+            ++j;
+            ++i;
+            if(T[i]==T[j]){
+                nextval[i] = nextval[j];
+            }else{
+                nextval[i] = j;
+            }
         }else{
-            j = next[j];
+            j = nextval[j];
         }
     }
     for(int q=1; q<T[0]; q++)
-        cout<<next[q]<<' ';
+        cout<<nextval[q]<<' ';
     cout<<endl;
 }
 int PositionKMP(char *S, char *T, int pos){
     int i = pos;
     int j = 1;
-    int next[255] = {0};
-    GetNext(T, next);
+    int nextval[255] = {0};
+    GetNext(T, nextval);
     while(i<=S[0] && j<=T[0]){
         if(j==0 || S[i]==T[j]){
             ++j;
             ++i;
         }else{
-            j = next[j];
+            j = nextval[j];
         }
     }
     if(j>T[0])
