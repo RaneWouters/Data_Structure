@@ -43,8 +43,8 @@ int PositionKMP(char *S, char *T, int pos){
     return ERROR;
 }
 int main(){
-    char S[255];
-    char T[255];
+    char S[255] = {0};
+    char T[255] = {0};
     int pos = 1;
     string temp;
 
