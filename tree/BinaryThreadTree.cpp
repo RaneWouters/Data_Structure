@@ -3,7 +3,8 @@
 using namespace std;
 
 typedef char Elemtype;
-typedef enum {link, thread} PointerTag;
+
+typedef enum{link, thread} PointerTag;
 
 typedef struct Node{
     Elemtype data;
@@ -14,7 +15,7 @@ typedef struct Node{
 }BinaryTreeNode, *BinaryTreeNodePtr;
 
 //前序插入构造二叉树
-// "#" means NULL;
+// "#" means nullptr;
 void CreateBinaryTree_PreOrder(BinaryTreeNode *&T){
     Elemtype temp;
     cin>>temp;
@@ -24,6 +25,8 @@ void CreateBinaryTree_PreOrder(BinaryTreeNode *&T){
     }else{
         T = (BinaryTreeNodePtr)malloc(sizeof(BinaryTreeNode));
         T->data = temp;
+        T->ltag = link;
+        T->rtag = link;
     }
     CreateBinaryTree_PreOrder(T->lchild);
     CreateBinaryTree_PreOrder(T->rchild);
@@ -31,36 +34,56 @@ void CreateBinaryTree_PreOrder(BinaryTreeNode *&T){
 //中序线索化
 //含有头结点
 BinaryTreeNodePtr pre = nullptr;
-void InOrderTraverse_Thread(BinaryTreeNode *T){
-    if(T == NULL)
+void InOrderThreading(BinaryTreeNode *T){
+    if(T == nullptr)
         return ;
-    InOrderTraverse_Thread(T->lchild);
-    if(T->lchild == NULL){
+    InOrderThreading(T->lchild);
+    if(T->lchild == nullptr){
         T->ltag = thread;
         T->lchild = pre;
     }
-    if(pre!=NULL){
-        if(pre->rchild == NULL){
+    if(pre!=nullptr){
+        if(pre->rchild == nullptr){
             pre->rtag = thread;
             pre->rchild = T;
         }
     }
     pre = T;
-    InOrderTraverse_Thread(T->rchild);
+    InOrderThreading(T->rchild);
 }
-void InOrderTraverse_Thread_Head(BinaryTreeNodePtr &head, BinaryTreeNode *T){
+void InOrderThreading_Head(BinaryTreeNodePtr &head, BinaryTreeNode *T){
     head = (BinaryTreeNodePtr)malloc(sizeof(BinaryTreeNode));
     head->lchild = T;
     pre = head;
-    InOrderTraverse_Thread(T);
+    InOrderThreading(T);
     head->rchild = pre;
     pre->rchild = head;
+    head->ltag = thread;
+    head->rtag = thread;
+}
+//中序遍历线索树
+//相当于链表的遍历
+void InOrderTraverse_Thread(BinaryTreeNode *T){
+    BinaryTreeNodePtr p;
+    p = T->lchild;
+    while(p != T){
+        while(p->ltag == link){
+            p = p->lchild;
+        }
+        cout<<p->data<<' ';
+        while(p->rtag==thread && p->rchild!=T){
+            p = p->rchild;
+            cout<<p->data<<' ';
+        }
+        p = p->rchild;
+    }
 }
 int main(){
     BinaryTreeNode *T = (BinaryTreeNodePtr)malloc(sizeof(BinaryTreeNode));
     CreateBinaryTree_PreOrder(T);
     BinaryTreeNodePtr head;
-    InOrderTraverse_Thread_Head(head, T);
+    InOrderThreading_Head(head, T);
+    InOrderTraverse_Thread(head);   //head成为线索树新的顶端
     cout<<endl;
     return 0;
 }

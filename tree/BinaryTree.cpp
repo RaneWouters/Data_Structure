@@ -8,13 +8,12 @@ typedef char Elemtype;
 
 typedef struct Node{
     Elemtype data;
-    bool ltag, rtag;
     struct Node *lchild=nullptr;
     struct Node *rchild=nullptr;
 }BinaryTreeNode, *BinaryTreeNodePtr;
 
 //前序插入构造二叉树
-// "#" means NULL;
+// "#" means nullptr;
 void CreateBinaryTree_PreOrder(BinaryTreeNode *&T){
     Elemtype temp;
     cin>>temp;
@@ -31,7 +30,7 @@ void CreateBinaryTree_PreOrder(BinaryTreeNode *&T){
 
 //前序遍历
 void PreOrderTraverse(BinaryTreeNode *T){
-    if(T == NULL)
+    if(T == nullptr)
         return ;
     cout<<T->data<<' ';
     PreOrderTraverse(T->lchild);
@@ -39,7 +38,7 @@ void PreOrderTraverse(BinaryTreeNode *T){
 }
 //中序遍历
 void InOrderTraverse(BinaryTreeNode *T){
-    if(T == NULL)
+    if(T == nullptr)
         return ;
     InOrderTraverse(T->lchild);
     cout<<T->data<<' ';
@@ -47,7 +46,7 @@ void InOrderTraverse(BinaryTreeNode *T){
 }
 //后序遍历
 void PostOrderTraverse(BinaryTreeNode *T){
-    if(T == NULL)
+    if(T == nullptr)
         return ;
     PostOrderTraverse(T->lchild);
     PostOrderTraverse(T->rchild);
@@ -83,12 +82,10 @@ void LevelOrderTraverse(BinaryTreeNode *T){
         if(temp.rchild) node_queue.push(*temp.rchild);
     }
 }
-//无头结点的线索二叉树
-
 int main(){
     BinaryTreeNode *T = (BinaryTreeNodePtr)malloc(sizeof(BinaryTreeNode));
     CreateBinaryTree_PreOrder(T);
-    LevelOrderTraverse(T);
+
     cout<<endl;
     return 0;
 }
