@@ -47,12 +47,10 @@ int main(){
 }
 
 void DFS(MGraph &Graph, int q){
-    if(Graph.visited[q])   return ;
-
     Graph.visited[q] = true;
     cout<<Graph.Vertex[q]<<' ';
     for(int i=0; i<Graph.numVertex; i++){
-        if(Graph.Edge[q][i] && Graph.visited[i])
+        if(Graph.Edge[q][i] != INFINITY && !Graph.visited[i])
             DFS(Graph, i);
     }
 }
