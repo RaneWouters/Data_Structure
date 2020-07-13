@@ -5,7 +5,7 @@ using namespace std;
 constexpr int MAXSIZE = 100;
 constexpr int INFINITY = 65535;
 
-using VertexType = string;
+using VertexType = char;
 using EdgeType = int;
 
 struct EdgeNode{
